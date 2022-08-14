@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="speak">click</button>
+    <script>
+        var speak = document.querySelector("#speak")
+        const snippets = ["my name is what","my name is who","my name is where","my name is ticka, ticka slim shady","I drove my car far into the mountains... Going up winding roads, we came to a place where we could park and see the little mountain river. The water was sapphire blue in places and emerald green in other places.", "There was no path down from the road to the river so we got back in the car and kept driving", "The road was very narrow and windy, wide enough for only one car."]
+        x = 0;
+        function speaknow (){
+            // x = 0;
+            var speech = new SpeechSynthesisUtterance();
+            speech.rate = .7;
+            speech.pitch = 1;
+            speech.volume = 1;
+            speech.voice = speechSynthesis.getVoices()[0];
+            // speech.text = text.value;
+            speech.text = snippets[x];
+            speechSynthesis.speak(speech)
+        }
+        speak.onclick = function(e){
+            e.preventDefault();
+            speaknow();
+            if (x < snippets.length -1){
+                x++;
+            }else{
+                x = 0;
+            }
+        }
+    </script>
+</body>
+</html>

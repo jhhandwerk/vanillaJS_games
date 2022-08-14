@@ -1,0 +1,23 @@
+#canvas1{
+    border: 3px solid black ;
+    position: absolute;
+    height: 700px;
+    width: 1300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* background: linear-gradient(to bottom, red, green, blue); */
+}
+
+#collisionCanvas{
+    /* background: red; */
+    /* border: 3px solid black ; */
+    position: absolute;
+    height: 700px;
+    width: 1300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
