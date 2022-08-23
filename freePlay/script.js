@@ -19,12 +19,13 @@ class Folk {
 }
 
 var player = {x: 0, y: 0, width: 50, height: 50}
-var rect3 = {x: 100, y: 340, width: 100, height: 100}
+var rect3 = {x: 200, y: 10, width: 100, height: 100}
 let bob = new Folk("Bob", 300, 200, 30, 30, "black")
-let tom = new Folk("Tom", 150, 100, 100, 100, "black")
+let tom = new Folk("Tom", 150, 150, 100, 100, "black")
 let jake = new Folk("Jake", 300, 200, 30, 30, "black")
+let jim = new Folk("Jake", 100, 50, 30, 30, "black")
 
-const folksArray = [bob, tom, jake];
+const folksArray = [jim, tom, bob, jake];
 
 // folksArray.forEach(myFunction)
 // function myFunction(item, index) {
@@ -57,42 +58,46 @@ document.onkeydown = function (event) {
 
 // red collision. solid
 function collideRed(){
-    if(
-        // player.x > tom.x + tom.width ||
-        player.x > folksArray[2].x + folksArray[2].width ||
-        player.x + player.width < folksArray[2].x ||
-        player.y > folksArray[2].y + folksArray[2].height ||
-        player.y + player.height < folksArray[2].y
-    ){} else if(player.y === folksArray[2].y + folksArray[2].height){   
-        ctx.fillText("bottom", 150, 90)
-        ctx.fillStyle = ("red")
-        speedUp = 0;
-    } else if(player.y + player.height === folksArray[2].y){
-        ctx.fillText("top", 150, 90)
-        ctx.fillStyle = ("red")
-        speedDown = 0;
-    } else if(player.x + player.width === folksArray[2].x){
-        ctx.fillText("left", 150, 90)
-        ctx.fillStyle = ("red")
-        speedRight = 0;
-    } else if(player.x === folksArray[2].x + folksArray[2].width){
-        ctx.fillText("right", 150, 90)
-        ctx.fillStyle = ("red")
-        speedLeft = 0;
-    }  
-    if(
-        player.x > folksArray[2].x + folksArray[2].width ||
-        player.x + player.width < folksArray[2].x ||
-        player.y > folksArray[2].y + folksArray[2].height ||
-        player.y + player.height < folksArray[2].y
-    ){
-        speedLeft = 5;
-        speedUp = 5;
-        speedRight = 5;
-        speedDown = 5;
-    }
-}
+    // for(i = 0; i<folksArray.length; i++) { 
+        i = 1;
+        if(
+            // first objecttttttttttt
+            player.x > folksArray[i].x + folksArray[i].width ||
+            player.x + player.width < folksArray[i].x ||
+            player.y > folksArray[i].y + folksArray[i].height ||
+            player.y + player.height < folksArray[i].y 
+        ){} else if(player.y === folksArray[i].y + folksArray[i].height){   
+            ctx.fillText("bottom", 150, 90)
+            ctx.fillStyle = ("red")
+            speedUp = 0;
+        } else if(player.y + player.height === folksArray[i].y){
+            ctx.fillText("top", 150, 90)
+            ctx.fillStyle = ("red")
+            speedDown = 0;
+        } else if(player.x + player.width === folksArray[i].x){
+            ctx.fillText("left", 150, 90)
+            ctx.fillStyle = ("red")
+            speedRight = 0;
+        } else if(player.x === folksArray[i].x + folksArray[i].width){
+            ctx.fillText("right", 150, 90)
+            ctx.fillStyle = ("red")
+            speedLeft = 0;   
+        }
 
+        if(
+            // first
+            player.x > folksArray[0].x + folksArray[i].width ||
+            player.x + player.width < folksArray[i].x ||
+            player.y > folksArray[0].y + folksArray[i].height ||
+            player.y + player.height < folksArray[i].y
+        ){
+            speedLeft = 5;
+            speedUp = 5;
+            speedRight = 5;
+            speedDown = 5;
+        }
+    // }
+}
 
     //  green collission. changes colors on collision... not solid
     function collideGreen(){
@@ -112,11 +117,11 @@ function animate(){
     ctx.fillRect(rect3.x, rect3.y, rect3.width, rect3.height)
     ctx.fillRect(bob.x, bob.y, bob.width, bob.height)
     ctx.fillRect(tom.x, tom.y, tom.width, tom.height)
+    ctx.fillRect(jim.x, jim.y, jim.width, jim.height)
     ctx.fillStyle = ("blue")
     requestAnimationFrame(animate)
     collideRed()
     collideGreen()
-
 }
 animate();
 
