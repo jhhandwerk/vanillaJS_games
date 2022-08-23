@@ -86,9 +86,9 @@ function collideRed(){
 
         if(
             // first
-            player.x > folksArray[0].x + folksArray[i].width ||
+            player.x > folksArray[i].x + folksArray[i].width ||
             player.x + player.width < folksArray[i].x ||
-            player.y > folksArray[0].y + folksArray[i].height ||
+            player.y > folksArray[i].y + folksArray[i].height ||
             player.y + player.height < folksArray[i].y
         ){
             speedLeft = 5;
