@@ -20,10 +20,10 @@ class Folk {
 
 var player = {x: 0, y: 0, width: 50, height: 50}
 var rect3 = {x: 200, y: 10, width: 100, height: 100}
-let bob = new Folk("Bob", 300, 200, 30, 30, "black")
-let tom = new Folk("Tom", 150, 150, 100, 100, "black")
-let jake = new Folk("Jake", 300, 200, 30, 30, "black")
-let jim = new Folk("Jake", 100, 50, 30, 30, "black")
+let bob = new Folk("Hi, my name is bob", 300, 200, 50, 30, "black")
+let tom = new Folk("Hi, my name is tom", 150, 150, 100, 100, "black")
+let jake = new Folk("Hi, my name is jake", 300, 200, 30, 30, "black")
+let jim = new Folk("Hi, my name is jim", 100, 50, 30, 30, "black")
 
 const folksArray = [jim, tom, bob, jake];
 
@@ -59,7 +59,6 @@ document.onkeydown = function (event) {
 // red collision. solid
 function collideRed(){
     for(i = 0; i<folksArray.length + 1; i++) { 
-        
         if(
             // first objecttttttttttt
             player.x > folksArray[i].x + folksArray[i].width ||
@@ -67,19 +66,19 @@ function collideRed(){
             player.y > folksArray[i].y + folksArray[i].height ||
             player.y + player.height < folksArray[i].y 
         ){} else if(player.y === folksArray[i].y + folksArray[i].height){   
-            ctx.fillText("bottom", 150, 90)
+            ctx.fillText(folksArray[i].name, 500, 90)
             ctx.fillStyle = ("red")
             speedUp = 0;
         } else if(player.y + player.height === folksArray[i].y){
-            ctx.fillText("top", 150, 90)
+            ctx.fillText(folksArray[i].name, 500, 90)
             ctx.fillStyle = ("red")
             speedDown = 0;
         } else if(player.x + player.width === folksArray[i].x){
-            ctx.fillText("left", 150, 90)
+            ctx.fillText(folksArray[i].name, 500, 90)
             ctx.fillStyle = ("red")
             speedRight = 0;
         } else if(player.x === folksArray[i].x + folksArray[i].width){
-            ctx.fillText("right", 150, 90)
+            ctx.fillText(folksArray[i].name, 500, 90)
             ctx.fillStyle = ("red")
             speedLeft = 0;   
         }
@@ -109,7 +108,6 @@ function collideRed(){
         ctx.fillStyle = ("green")
     }
 }
-
 function animate(){
     ctx.clearRect(0,0,canvas.width, canvas.height);
     ctx.fillRect(player.x, player.y, player.width, player.height)
