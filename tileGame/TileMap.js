@@ -8,6 +8,9 @@ export default class TileMap {
         this.pacman = this.#image("pacman.png")
         this.dot = this.#image("dot.png")
         this.ghost = this.#image("ghost.png")
+        this.greyTile = this.#image("greyTile.png")
+        this.blackTile = this.#image("blackTile.png")
+        this.blueTile = this.#image("blueTile.png")
     }
 
     #image(fileName){
@@ -22,13 +25,13 @@ export default class TileMap {
     // 3 enemy
     map = [
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,0,4,0,0,0,0,0,0,0,3,1],
-        [1,0,1,1,1,1,1,1,1,1,1,1,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,4,0,0,0,0,0,0,0,0,1],
         [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,4,0,0,0,0,0,1],
+        [1,0,1,0,0,4,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     ];
@@ -45,10 +48,10 @@ export default class TileMap {
                 let image = null;
                 switch(tile){
                     case 1:
-                        image = this.wall;
+                        image = this.greyTile;
                         break;
                     case 0:
-                        image = this.dot;
+                        image = this.blackTile;
                         break;
                     case 2:
                         image = this.pacman;
@@ -56,6 +59,10 @@ export default class TileMap {
                     case 3:
                         image = this.ghost;
                         break;
+                    case 4:
+                        image = this.blueTile;
+                        break;
+                    
                 }
                 if(image !=null)
                 ctx.drawImage(image,column * this.tileSize, row*this.tileSize,this.tileSize,this.tileSize)
@@ -91,10 +98,7 @@ export default class TileMap {
         canvas.width = this.map[0].length * this.tileSize;
     }
     didCollideWithEnvironment(x,y,direction){
-        if(
-            Number.isInteger(x/this.tileSize)&& 
-            Number.isInteger(y/this.tileSize)
-          ){
+        if( Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){
             let column = 0;
             let row = 0;
             let nextColumn = 0;
@@ -123,7 +127,7 @@ export default class TileMap {
                     break;
             }
             const tile = this.map[row][column];
-            if(tile===1){
+            if(tile===1||tile === 4){
                 return true;
             }
         }

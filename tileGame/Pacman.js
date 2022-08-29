@@ -7,14 +7,11 @@ export default class Pacman{
         this.tileSize = tileSize;
         this.velocity = velocity;
         this.tileMap = tileMap;
-
         this.currentMovingDirection = null;
         this.requestedMovingDirection = null;
-
-        document.addEventListener("keydown", this.#keydown);
-
-
         this.#loadPacmanImages();
+        document.addEventListener("keydown", this.#keydown);
+        document.addEventListener("keyup", this.#keyup);
     }
     draw(ctx){
         this.#move();
@@ -63,33 +60,27 @@ export default class Pacman{
             this.requestedMovingDirection = MovingDirection.right;
         }
     }
+    #keyup =(event)=>{
+        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39){
+            this.velocity = 0;
+            // this.requestedMovingDirection = MovingDirection.stop;
+        }
+    }
+
     #move() {
         if (this.currentMovingDirection !== this.requestedMovingDirection){
-            if(
-                Number.isInteger(this.x/this.tileSize)&&
-                Number.isInteger(this.y/this.tileSize)
-            ){
-             if(
-                 !this.tileMap.didCollideWithEnvironment(
-                     this.x,
-                     this.y,
-                     this.requestedMovingDirection
-                 )
-             )
+            if(Number.isInteger(this.x/this.tileSize)&&Number.isInteger(this.y/this.tileSize)){
+             if(!this.tileMap.didCollideWithEnvironment(this.x,this.y,this.requestedMovingDirection))
                 this.currentMovingDirection = this.requestedMovingDirection;
             }
         }
-
-        if(
-            this.tileMap.didCollideWithEnvironment(
-                this.x,this.y,this.currentMovingDirection
-                )
-            ){
-                return;
-            }
+        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
+            return;
+        }
 
         switch (this.currentMovingDirection){
             case MovingDirection.up:
+                // this.velocity = 1;
                 this.y -= this.velocity;
                 break;
             case MovingDirection.down:
@@ -99,7 +90,7 @@ export default class Pacman{
                 this.x -= this.velocity;
                 break;
             case MovingDirection.right:
-                this.x += this.velocity;
+                this.x += this.velocity; 
                 break;
         }
     } 
