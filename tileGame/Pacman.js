@@ -34,35 +34,38 @@ export default class Pacman{
         this.pacmanImageIndex = 0;
     }
     #keydown =(event)=>{
+        this.velocity = 1;
+
         // up
         if(event.keyCode == 38){
-            if(this.currentMovingDirection == MovingDirection.down)
-                this.currentMovingDirection = MovingDirection.up;
+            // if(this.currentMovingDirection == MovingDirection.down)
+            //     this.currentMovingDirection = MovingDirection.up;
             this.requestedMovingDirection = MovingDirection.up;
         }
         // down
         if(event.keyCode == 40){
-            if(this.currentMovingDirection == MovingDirection.up)
-                this.currentMovingDirection = MovingDirection.down;
+            // if(this.currentMovingDirection == MovingDirection.up)
+            //     this.currentMovingDirection = MovingDirection.down;
             this.requestedMovingDirection = MovingDirection.down;
         }
 
         // left
         if(event.keyCode == 37){
-            if(this.currentMovingDirection == MovingDirection.right)
-                this.currentMovingDirection = MovingDirection.left;
+            // if(this.currentMovingDirection == MovingDirection.right)
+            //     this.currentMovingDirection = MovingDirection.left;
             this.requestedMovingDirection = MovingDirection.left;
         }
         // right
         if(event.keyCode == 39){
-            if(this.currentMovingDirection == MovingDirection.left)
-                this.currentMovingDirection = MovingDirection.right;
+            // if(this.currentMovingDirection == MovingDirection.left)
+            //     this.currentMovingDirection = MovingDirection.right;
             this.requestedMovingDirection = MovingDirection.right;
         }
     }
     #keyup =(event)=>{
         if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39){
             this.velocity = 0;
+            // this.y = 100;
             // this.requestedMovingDirection = MovingDirection.stop;
         }
     }
@@ -75,12 +78,12 @@ export default class Pacman{
             }
         }
         if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
+            // alert("hello")
             return;
         }
 
         switch (this.currentMovingDirection){
             case MovingDirection.up:
-                // this.velocity = 1;
                 this.y -= this.velocity;
                 break;
             case MovingDirection.down:
@@ -92,6 +95,10 @@ export default class Pacman{
             case MovingDirection.right:
                 this.x += this.velocity; 
                 break;
+            case MovingDirection.stop:
+                this.x = 0; 
+                this.y = 0; 
+                break;
         }
-    } 
+    }    
 }
