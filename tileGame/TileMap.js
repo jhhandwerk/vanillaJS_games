@@ -2,7 +2,7 @@ import Pacman from "./Pacman.js";
 import MovingDirection from "./MovingDirection.js";
 
 export default class TileMap {
-    constructor(tileSize){
+    constructor(tileSize, t){
         this.tileSize = tileSize;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("pacman.png")
@@ -11,6 +11,10 @@ export default class TileMap {
         this.greyTile = this.#image("greyTile.png")
         this.blackTile = this.#image("blackTile.png")
         this.blueTile = this.#image("blueTile.png")
+        document.addEventListener("keydown", this.#dialogue);
+        this.t = t;
+
+
     }
 
     #image(fileName){
@@ -18,7 +22,6 @@ export default class TileMap {
         img.src = `images/${fileName}`;
         return img;
     }
-
     // 1 wall
     // 0 dot
     // 2 pac man
@@ -98,7 +101,8 @@ export default class TileMap {
         canvas.width = this.map[0].length * this.tileSize;
     }
     didCollideWithEnvironment(x,y,direction){
-        if( Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){
+        // t = 0;
+        if(Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){
             let column = 0;
             let row = 0;
             let nextColumn = 0;
@@ -126,11 +130,36 @@ export default class TileMap {
                     column = x / this.tileSize;
                     break;
             }
-            const tile = this.map[row][column];
-            if(tile===1||tile === 4){
-                return true;
+                const tile = this.map[row][column];
+                if(tile === 1){
+                    this.t = 4;
+                    console.log(this.t)
+
+                    return true;
+                }
+                if(tile === 4){
+                    this.t = 3;
+                    console.log(this.t)
+                    return true;
+                 }
+                
             }
-        }
         return false;
+    }
+    #dialogue = (event) =>{
+        // const tile = this.tileMap.map[row][column];
+        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
+            if(event.keyCode == 32) { 
+                if(t ==3){
+                    document.getElementById("dialogue").innerHTML="Holy shNikes" 
+                }
+                if(t ==4){
+                    document.getElementById("dialogue").innerHTML="really" 
+                }
+            }
+     }
+        if(event.keyCode == 13){
+            document.getElementById("dialogue").innerHTML=""
+         }
     }
 }

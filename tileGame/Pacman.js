@@ -1,4 +1,5 @@
 import MovingDirection from "./MovingDirection.js";
+import TileMap from "./TileMap.js";
 
 export default class Pacman{
     constructor(x,y,tileSize, velocity, tileMap){
@@ -12,6 +13,7 @@ export default class Pacman{
         this.#loadPacmanImages();
         document.addEventListener("keydown", this.#keydown);
         document.addEventListener("keyup", this.#keyup);
+        document.addEventListener("keydown", this.#dialogue);
     }
     draw(ctx){
         this.#move();
@@ -62,8 +64,19 @@ export default class Pacman{
             this.requestedMovingDirection = MovingDirection.right;
         }
     }
+    #dialogue = (event) =>{
+        // const tile = this.tileMap.map[row][column];
+        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
+            if(event.keyCode == 32) { 
+                document.getElementById("dialogue").innerHTML="Holy shNikes"
+            }
+     }
+        if(event.keyCode == 13){
+            document.getElementById("dialogue").innerHTML=""
+         }
+    }
     #keyup =(event)=>{
-        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39){
+        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
             this.velocity = 0;
             // this.y = 100;
             // this.requestedMovingDirection = MovingDirection.stop;
@@ -78,10 +91,9 @@ export default class Pacman{
             }
         }
         if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
-            // alert("hello")
+            // ctx.fillText("hello", 50,50)
             return;
         }
-
         switch (this.currentMovingDirection){
             case MovingDirection.up:
                 this.y -= this.velocity;
@@ -100,5 +112,5 @@ export default class Pacman{
                 this.y = 0; 
                 break;
         }
-    }    
+    }
 }
