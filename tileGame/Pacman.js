@@ -2,7 +2,7 @@ import MovingDirection from "./MovingDirection.js";
 import TileMap from "./TileMap.js";
 
 export default class Pacman{
-    constructor(x,y,tileSize, velocity, tileMap){
+    constructor(x,y,tileSize, velocity, tileMap, dialogue){
         this.x = x;
         this.y = y;
         this.tileSize = tileSize;
@@ -13,7 +13,9 @@ export default class Pacman{
         this.#loadPacmanImages();
         document.addEventListener("keydown", this.#keydown);
         document.addEventListener("keyup", this.#keyup);
-        document.addEventListener("keydown", this.#dialogue);
+    
+        dialogue = document.getElementById("dialogue")
+
     }
     draw(ctx){
         this.#move();
@@ -36,7 +38,7 @@ export default class Pacman{
         this.pacmanImageIndex = 0;
     }
     #keydown =(event)=>{
-        this.velocity = 1;
+        this.velocity = 2;
 
         // up
         if(event.keyCode == 38){
@@ -64,17 +66,6 @@ export default class Pacman{
             this.requestedMovingDirection = MovingDirection.right;
         }
     }
-    #dialogue = (event) =>{
-        // const tile = this.tileMap.map[row][column];
-        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
-            if(event.keyCode == 32) { 
-                document.getElementById("dialogue").innerHTML="Holy shNikes"
-            }
-     }
-        if(event.keyCode == 13){
-            document.getElementById("dialogue").innerHTML=""
-         }
-    }
     #keyup =(event)=>{
         if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
             this.velocity = 0;
@@ -92,6 +83,8 @@ export default class Pacman{
         }
         if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
             // ctx.fillText("hello", 50,50)
+            // console.log(69)
+            dialogue.style.display="initial"                                                     
             return;
         }
         switch (this.currentMovingDirection){

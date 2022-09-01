@@ -2,7 +2,7 @@ import Pacman from "./Pacman.js";
 import MovingDirection from "./MovingDirection.js";
 
 export default class TileMap {
-    constructor(tileSize, t){
+    constructor(tileSize, t, dialogue, clearDialogue){
         this.tileSize = tileSize;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("pacman.png")
@@ -11,9 +11,12 @@ export default class TileMap {
         this.greyTile = this.#image("greyTile.png")
         this.blackTile = this.#image("blackTile.png")
         this.blueTile = this.#image("blueTile.png")
+        this.purpleTile = this.#image("purpleTile.png")
         document.addEventListener("keydown", this.#dialogue);
-        this.t = t;
-
+        document.addEventListener("keydown", this.#clearDialogue);
+        this.t = 0;
+        dialogue = document.getElementById("dialogue");
+        dialogue.style.display="none"
 
     }
 
@@ -30,7 +33,7 @@ export default class TileMap {
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,4,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,4,0,0,5,0,0,0,0,0,1],
         [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,1,0,0,0,0,0,4,0,0,0,0,0,1],
@@ -64,6 +67,9 @@ export default class TileMap {
                         break;
                     case 4:
                         image = this.blueTile;
+                        break;
+                    case 5:
+                        image = this.purpleTile;
                         break;
                     
                 }
@@ -132,14 +138,21 @@ export default class TileMap {
             }
                 const tile = this.map[row][column];
                 if(tile === 1){
-                    this.t = 4;
-                    console.log(this.t)
-
+                    this.t = 1;
+                    // dialogue.style.display="initial"
+                    dialogue.innerHTML=""
                     return true;
                 }
                 if(tile === 4){
                     this.t = 3;
-                    console.log(this.t)
+                    // console.log(this.t)
+                    dialogue.innerHTML="man"
+                    return true;
+                 }
+                 if(tile === 5){
+                    this.t = 6;
+                    // console.log(this.t)
+                    dialogue.innerHTML="dinga"
                     return true;
                  }
                 
@@ -148,18 +161,18 @@ export default class TileMap {
     }
     #dialogue = (event) =>{
         // const tile = this.tileMap.map[row][column];
-        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
+        // if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
             if(event.keyCode == 32) { 
-                if(t ==3){
-                    document.getElementById("dialogue").innerHTML="Holy shNikes" 
-                }
-                if(t ==4){
-                    document.getElementById("dialogue").innerHTML="really" 
-                }
+               console.log(69)
+            dialogue.style.display="initial"
+
             }
-     }
-        if(event.keyCode == 13){
-            document.getElementById("dialogue").innerHTML=""
-         }
+        // }
     }
+
+    #clearDialogue = (event) =>{
+        if(event.keyCode == 13){
+            dialogue.innerHTML=""
+      }
+   }
 }
