@@ -1,21 +1,24 @@
 import Pacman from "./Pacman.js";
-import MovingDirection from "./MovingDirection.js";
+import move from "./move.js";
 
 export default class TileMap {
     constructor(tileSize, t, dialogue, clearDialogue){
         this.tileSize = tileSize;
         this.wall = this.#image("wall.png")
-        this.pacman = this.#image("pacman.png")
-        this.dot = this.#image("dot.png")
+        this.pacman = this.#image("blackTile.png")
+        this.dot = this.#image("dot.png")   
         this.ghost = this.#image("ghost.png")
         this.greyTile = this.#image("greyTile.png")
         this.blackTile = this.#image("blackTile.png")
         this.blueTile = this.#image("blueTile.png")
         this.purpleTile = this.#image("purpleTile.png")
+        this.pinkTile = this.#image("pinkTile.png")
+        this.table = this.#image("table.png")
+        this.grass = this.#image("grass.png")
+        this.brown = this.#image("brown.png")
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
-        this.t = 0;
-        dialogue = document.getElementById("dialogue");
+        var dialogue = document.getElementById("dialogue");
         dialogue.style.display="none"
 
     }
@@ -30,16 +33,21 @@ export default class TileMap {
     // 2 pac man
     // 3 enemy
     map = [
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,4,0,0,5,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,4,0,0,0,0,0,1],
-        [1,0,1,0,0,4,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,0,0,7,7,0,0,8,0,0,0,0,1],
+        [1,0,1,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,7,0,4,0,0,0,0,0,5,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
     ];
 
     draw(canvas, ctx) {
@@ -54,13 +62,13 @@ export default class TileMap {
                 let image = null;
                 switch(tile){
                     case 1:
-                        image = this.greyTile;
+                        image = this.brown;
                         break;
                     case 0:
-                        image = this.blackTile;
+                        image = this.grass;
                         break;
                     case 2:
-                        image = this.pacman;
+                        image = this.blackTile;
                         break;
                     case 3:
                         image = this.ghost;
@@ -70,6 +78,15 @@ export default class TileMap {
                         break;
                     case 5:
                         image = this.purpleTile;
+                        break;
+                    case 6:
+                        image = this.pinkTile;
+                        break;
+                    case 7:
+                        image = this.greyTile;
+                        break;
+                    case 8:
+                        image = this.wall;
                         break;
                     
                 }
@@ -84,7 +101,7 @@ export default class TileMap {
         for(let row = 0; row< this.map.length; row++){
             for(let column = 0; column<this.map[row].length; column++){
                 let tile = this.map[row][column];
-                if(tile === 4){
+                if(tile === 6){
                     this.map[row][column] = 0;
                     return new Pacman(
                         column*this.tileSize, 
@@ -106,31 +123,36 @@ export default class TileMap {
         canvas.height = this.map.length * this.tileSize;
         canvas.width = this.map[0].length * this.tileSize;
     }
-    didCollideWithEnvironment(x,y,direction){
-        // t = 0;
-        if(Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){
-            let column = 0;
+    // smallCollision(){
+    //     if(this.map[row][column] === 6){
+    //         return true;
+    //      }
+    // }
+    didCollideWithEnvironment(x,y,direction){                                       
+        if(Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){  
+            
+            let column = 0; 
             let row = 0;
             let nextColumn = 0;
             let nextRow =0;
 
             switch(direction){
-                case MovingDirection.right:
+                case move.right:
                     nextColumn = x + this.tileSize;
                     column = nextColumn/this.tileSize;
                     row = y/this.tileSize;
                     break;
-                case MovingDirection.left:
+                case move.left:
                     nextColumn = x - this.tileSize;
                     column = nextColumn/this.tileSize;
                     row = y/this.tileSize;
                     break;
-                case MovingDirection.up:
+                case move.up:
                     nextRow = y - this.tileSize;
                     row = nextRow/this.tileSize;
                     column = x / this.tileSize;
                     break;
-                case MovingDirection.down:
+                case move.down:
                     nextRow = y + this.tileSize;
                     row = nextRow/this.tileSize;
                     column = x / this.tileSize;
@@ -138,25 +160,30 @@ export default class TileMap {
             }
                 const tile = this.map[row][column];
                 if(tile === 1){
-                    this.t = 1;
-                    // dialogue.style.display="initial"
-                    dialogue.innerHTML=""
+                    dialogue.style.display="initial"
+                    dialogue.innerHTML="..."
                     return true;
                 }
                 if(tile === 4){
-                    this.t = 3;
-                    // console.log(this.t)
                     dialogue.innerHTML="man"
                     return true;
                  }
                  if(tile === 5){
-                    this.t = 6;
-                    // console.log(this.t)
                     dialogue.innerHTML="dinga"
                     return true;
                  }
-                
-            }
+                 if(this.map[row][column] === 6){
+                    return true;
+                 }
+                 if(this.map[row][column] === 7){
+                    dialogue.innerHTML="This is a table"
+                    return true;
+                 }
+                 if(tile === 8){
+                    dialogue.innerHTML="my name is Michael Cain"
+                    return true;
+                 }
+            }   
         return false;
     }
     #dialogue = (event) =>{

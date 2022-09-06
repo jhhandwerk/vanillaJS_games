@@ -82,7 +82,7 @@ function collideRed(){
             ctx.fillStyle = ("red")
             speedLeft = 0;   
         }
-        if(
+        if( 
             // first
             player.x > folksArray[i].x + folksArray[i].width ||
             player.x + player.width < folksArray[i].x ||
@@ -112,10 +112,11 @@ function animate(){
     ctx.clearRect(0,0,canvas.width, canvas.height);
     ctx.fillRect(player.x, player.y, player.width, player.height)
     ctx.fillRect(rect3.x, rect3.y, rect3.width, rect3.height)
-    ctx.fillRect(bob.x, bob.y, bob.width, bob.height)
+    // ctx.fillRect(bob.x, bob.y, bob.width, bob.height)
     ctx.fillRect(tom.x, tom.y, tom.width, tom.height)
-    ctx.fillRect(jim.x, jim.y, jim.width, jim.height)
-    requestAnimationFrame(animate)
+    // ctx.fillRect(jim.x, jim.y, jim.width, jim.height)
+    // requestAnimationFrame(animate)
+    setInterval(animate, 1000/60);
     collideRed()
     collideGreen()
 }

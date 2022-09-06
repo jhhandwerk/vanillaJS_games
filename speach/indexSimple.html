@@ -15,10 +15,10 @@
         function speaknow (){
             // x = 0;
             var speech = new SpeechSynthesisUtterance();
-            speech.rate = .7;
+            speech.rate = 1;
             speech.pitch = 1;
             speech.volume = 1;
-            speech.voice = speechSynthesis.getVoices()[0];
+            speech.voice = speechSynthesis.getVoices()[5];
             // speech.text = text.value;
             speech.text = snippets[x];
             speechSynthesis.speak(speech)

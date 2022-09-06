@@ -1,4 +1,4 @@
-import MovingDirection from "./MovingDirection.js";
+import move from "./move.js";
 import TileMap from "./TileMap.js";
 
 export default class Pacman{
@@ -9,7 +9,7 @@ export default class Pacman{
         this.velocity = velocity;
         this.tileMap = tileMap;
         this.currentMovingDirection = null;
-        this.requestedMovingDirection = null;
+        this.go = null;
         this.#loadPacmanImages();
         document.addEventListener("keydown", this.#keydown);
         document.addEventListener("keyup", this.#keyup);
@@ -30,80 +30,108 @@ export default class Pacman{
 
     #loadPacmanImages() {
         const pacmanimage1 = new Image();
-        pacmanimage1.src = "./images/pacman.png"
+        const pacmanimage2 = new Image();
+        const pacmanimage3 = new Image();
+        pacmanimage1.src = "./images/pinkTile.png"
+        pacmanimage2.src = "./images/blackTile.png"
 
         this.pacmanImages = [
-            pacmanimage1
+            pacmanimage2,
+            pacmanimage1,
         ];
         this.pacmanImageIndex = 0;
     }
     #keydown =(event)=>{
         this.velocity = 2;
-
+        // the chain of if conditions below solved the problem of having the player react to other key input.
+        if(event.keyCode!==38&&event.keyCode!==40&&event.keyCode!==37&&event.keyCode!==39)  {
+            this.velocity = 0;
+        }
+         
         // up
         if(event.keyCode == 38){
             // if(this.currentMovingDirection == MovingDirection.down)
             //     this.currentMovingDirection = MovingDirection.up;
-            this.requestedMovingDirection = MovingDirection.up;
+            this.go = move.up;
         }
         // down
         if(event.keyCode == 40){
             // if(this.currentMovingDirection == MovingDirection.up)
             //     this.currentMovingDirection = MovingDirection.down;
-            this.requestedMovingDirection = MovingDirection.down;
+            this.go = move.down;
         }
 
         // left
         if(event.keyCode == 37){
             // if(this.currentMovingDirection == MovingDirection.right)
             //     this.currentMovingDirection = MovingDirection.left;
-            this.requestedMovingDirection = MovingDirection.left;
+            this.go = move.left;
         }
         // right
         if(event.keyCode == 39){
             // if(this.currentMovingDirection == MovingDirection.left)
             //     this.currentMovingDirection = MovingDirection.right;
-            this.requestedMovingDirection = MovingDirection.right;
+            this.go = move.right;
         }
     }
-    #keyup =(event)=>{
+    #keyup =(event)=>{  
+        // this.check = 0;
+        // this.movingProgressX=0;
+        // this.movingProgressY = 0;
         if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
+        this.mpx = this.x%this.tileSize;
+        this.mpy = this.y%this.tileSize;
+        if(this.mpx+this.mpy > 0){
+            console.log("zero da yo"+this.mpx)
+            this.velocity = 2;
+        }else if(this.mpx+this.mpy===0){
+            console.log("keyup" +this.mpx)
             this.velocity = 0;
-            // this.y = 100;
-            // this.requestedMovingDirection = MovingDirection.stop;
+        }
         }
     }
 
     #move() {
-        if (this.currentMovingDirection !== this.requestedMovingDirection){
+        if (this.currentMovingDirection !== this.go){
             if(Number.isInteger(this.x/this.tileSize)&&Number.isInteger(this.y/this.tileSize)){
-             if(!this.tileMap.didCollideWithEnvironment(this.x,this.y,this.requestedMovingDirection))
-                this.currentMovingDirection = this.requestedMovingDirection;
+             if(!this.tileMap.didCollideWithEnvironment(this.x,this.y,this.go))
+                this.currentMovingDirection = this.go;
             }
         }
-        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
-            // ctx.fillText("hello", 50,50)
-            // console.log(69)
-            dialogue.style.display="initial"                                                     
+        if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){                                          
             return;
         }
+
+        // if((this.x === 520&&this.y===192) || (this.x === 560&& this.y === 192)){
+        //     console.log("maybe...")
+        //     this.velocity = 0;
+        //     }
+        
         switch (this.currentMovingDirection){
-            case MovingDirection.up:
+            case move.up:
                 this.y -= this.velocity;
                 break;
-            case MovingDirection.down:
+            case move.down:
                 this.y += this.velocity;
                 break;
-            case MovingDirection.left:
+            case move.left:
+               
+                // change sprite
+                this.pacmanImageIndex = 0;
                 this.x -= this.velocity;
                 break;
-            case MovingDirection.right:
-                this.x += this.velocity; 
+            case move.right:
+                this.x +=  this.velocity; 
+                this.movingProgress = this.x%this.tileSize;
+                console.log("moving progress" + this.movingProgress)
+
+                // change sprite
+                this.pacmanImageIndex = 1;
                 break;
-            case MovingDirection.stop:
-                this.x = 0; 
-                this.y = 0; 
-                break;
+            // }
+
         }
+        console.log(this.x)
+        console.log(this.y)
     }
 }
