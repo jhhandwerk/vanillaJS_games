@@ -74,21 +74,26 @@ export default class Pacman{
             this.go = move.right;
         }
     }
+
+
     #keyup =(event)=>{  
         // this.check = 0;
         // this.movingProgressX=0;
         // this.movingProgressY = 0;
-        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
         this.mpx = this.x%this.tileSize;
         this.mpy = this.y%this.tileSize;
-        if(this.mpx+this.mpy > 0){
-            console.log("zero da yo"+this.mpx)
-            this.velocity = 2;
-        }else if(this.mpx+this.mpy===0){
-            console.log("keyup" +this.mpx)
-            this.velocity = 0;
+        this.counter = this.mpy+this.mpx;
+        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
+
+        // maybe it's not working because this.x and y keep changing after keyup
+        while(this.counter > 0){
+            console.log("zero jyanai yo"+this.counter)
+            this.counter -= 1;
         }
+            this.velocity=0;
+            console.log("yo"+this.velocity)
         }
+
     }
 
     #move() {
