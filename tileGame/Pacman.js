@@ -42,7 +42,7 @@ export default class Pacman{
         this.pacmanImageIndex = 0;
     }
     #keydown =(event)=>{
-        this.velocity = 2;
+        this.velocity = 4;
         // the chain of if conditions below solved the problem of having the player react to other key input.
         if(event.keyCode!==38&&event.keyCode!==40&&event.keyCode!==37&&event.keyCode!==39)  {
             this.velocity = 0;
@@ -77,25 +77,43 @@ export default class Pacman{
 
 
     #keyup =(event)=>{  
-        // this.check = 0;
-        // this.movingProgressX=0;
-        // this.movingProgressY = 0;
-        this.mpx = this.x%this.tileSize;
-        this.mpy = this.y%this.tileSize;
-        this.counter = this.mpy+this.mpx;
-        if(event.keyCode==38||event.keyCode==40||event.keyCode==37||event.keyCode==39|| event.keyCode==32){
 
-        // maybe it's not working because this.x and y keep changing after keyup
-        while(this.counter > 0){
-            console.log("zero jyanai yo"+this.counter)
-            this.counter -= 1;
+        if(event.keyCode==38){
+            while(this.y%this.tileSize>0){
+                // this.velocity = 1;
+                this.y -=1;
+            }
+                this.velocity = 0;
+                console.log("up")
         }
-            this.velocity=0;
-            console.log("yo"+this.velocity)
+        if(event.keyCode==40){
+            while(this.y%this.tileSize>0){
+                // this.velocity = 1;
+                this.y +=1;
+            }
+                this.velocity = 0;
+                console.log("down")
         }
-
+        if(event.keyCode==37){
+            while(this.x%this.tileSize>0){
+                this.velocity = 1;
+                this.x -=1;
+            }
+                this.velocity = 0;
+                console.log("left")
+        }
+        if(event.keyCode==39){
+            while(this.x%this.tileSize>0){
+                this.x +=1;
+        }
+            this.velocity = 0;
+            console.log("right")
+        }
+        if(event.keyCode==32){
+            this.velocity = 0;
+            console.log("enter")
     }
-
+    }
     #move() {
         if (this.currentMovingDirection !== this.go){
             if(Number.isInteger(this.x/this.tileSize)&&Number.isInteger(this.y/this.tileSize)){
@@ -107,10 +125,6 @@ export default class Pacman{
             return;
         }
 
-        // if((this.x === 520&&this.y===192) || (this.x === 560&& this.y === 192)){
-        //     console.log("maybe...")
-        //     this.velocity = 0;
-        //     }
         
         switch (this.currentMovingDirection){
             case move.up:
@@ -120,23 +134,19 @@ export default class Pacman{
                 this.y += this.velocity;
                 break;
             case move.left:
-               
                 // change sprite
                 this.pacmanImageIndex = 0;
                 this.x -= this.velocity;
                 break;
             case move.right:
                 this.x +=  this.velocity; 
-                this.movingProgress = this.x%this.tileSize;
-                console.log("moving progress" + this.movingProgress)
-
                 // change sprite
                 this.pacmanImageIndex = 1;
                 break;
             // }
 
         }
-        console.log(this.x)
-        console.log(this.y)
+        // console.log(this.x)
+        // console.log(this.y)
     }
 }

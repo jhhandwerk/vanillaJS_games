@@ -123,13 +123,9 @@ export default class TileMap {
         canvas.height = this.map.length * this.tileSize;
         canvas.width = this.map[0].length * this.tileSize;
     }
-    // smallCollision(){
-    //     if(this.map[row][column] === 6){
-    //         return true;
-    //      }
-    // }
     didCollideWithEnvironment(x,y,direction){                                       
         if(Number.isInteger(x/this.tileSize)&& Number.isInteger(y/this.tileSize)){  
+        // if(x%this.tileSize==0 && y%this.tileSize==0){  
             
             let column = 0; 
             let row = 0;
@@ -175,12 +171,15 @@ export default class TileMap {
                  if(this.map[row][column] === 6){
                     return true;
                  }
-                 if(this.map[row][column] === 7){
+                 if(tile === 7){
                     dialogue.innerHTML="This is a table"
+                    this.speaknow("This is a table", 1);    
+
                     return true;
                  }
                  if(tile === 8){
                     dialogue.innerHTML="my name is Michael Cain"
+                    this.speaknow("My name is Michael Cain", 1);   
                     return true;
                  }
             }   
@@ -196,6 +195,18 @@ export default class TileMap {
             }
         // }
     }
+
+    speaknow (something, v){
+        var speech = new SpeechSynthesisUtterance();
+        speech.rate = v;
+        speech.pitch = 1;
+        speech.volume = 1;
+        speech.voice = speechSynthesis.getVoices()[5];
+        speech.text = something;
+        speechSynthesis.speak(speech)
+        return
+    }
+
 
     #clearDialogue = (event) =>{
         if(event.keyCode == 13){
