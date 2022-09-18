@@ -2,7 +2,7 @@ import Pacman from "./Pacman.js";
 import move from "./move.js";
 
 export default class TileMap {
-    constructor(tileSize, dialogue, d, clearDialogue){
+    constructor(tileSize){
         this.tileSize = tileSize;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("blackTile.png")
@@ -19,12 +19,16 @@ export default class TileMap {
         this.gyoza = this.#image("keyMaster.png")
         this.blob = this.#image("blob.png")
         this.test = this.#image("test.png")
+        this.back = this.#image("back.png")
         this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
+        document.addEventListener("keyup", this.#check);
         var dialogue = document.getElementById("dialogue");
+        var message = document.getElementById("message");
         dialogue.style.display="none"
-        var input = document.getElementById("input");
+        message.style.display="none"
+        this.input = document.getElementById("input");
         input.style.display="none"
         var map = this.map1;
     }
@@ -50,16 +54,16 @@ export default class TileMap {
             //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,9,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,1,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
-                [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
-                [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,9,1],
-                [1,0,1,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,1,7,0,4,0,0,0,0,0,5,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ]
@@ -71,8 +75,26 @@ export default class TileMap {
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
+            [1,11,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]
+
+            map3 = [
+        //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -126,6 +148,12 @@ export default class TileMap {
                         break;
                     case 10:
                         image = this.blob;
+                        break;
+                    case 11:
+                        image = this.back;
+                        break;
+                    case 12:
+                        image = this.test;
                         break;
                     
                 }
@@ -230,7 +258,15 @@ export default class TileMap {
                     dialogue.innerHTML= this.blobTalk[this.d]
                     return true;
                  }
-            
+                 if(tile === 11){
+                    this.map = this.map1
+                    return true;
+                 }
+                 if(tile === 12){
+                    // this.map = this.map1
+                    input.style.display="initial"   
+                    return true;
+                 }
             }   
         return false;
     }
@@ -264,5 +300,16 @@ export default class TileMap {
                 }
             input.style="hidden"
         }
+    }
+    // this checks user input and responds with correct action (switching map)
+    #check = (event)=> {
+        // map = this.map2
+        if(event.keyCode == 13 && this.input.value == "purple"){
+            console.log("ok")
+            this.map = this.map3
+            input.style="hidden"
+            message.style.display="initial"
+            message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here..."
+        } 
     }
 }
