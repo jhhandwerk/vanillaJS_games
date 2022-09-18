@@ -2,7 +2,7 @@ import Pacman from "./Pacman.js";
 import move from "./move.js";
 
 export default class TileMap {
-    constructor(tileSize, t, dialogue, clearDialogue){
+    constructor(tileSize, dialogue, d, clearDialogue){
         this.tileSize = tileSize;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("blackTile.png")
@@ -16,11 +16,17 @@ export default class TileMap {
         this.table = this.#image("table.png")
         this.grass = this.#image("grass.png")
         this.brown = this.#image("brown.png")
+        this.gyoza = this.#image("keyMaster.png")
+        this.blob = this.#image("blob.png")
+        this.test = this.#image("test.png")
+        this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
         var dialogue = document.getElementById("dialogue");
         dialogue.style.display="none"
-
+        var input = document.getElementById("input");
+        input.style.display="none"
+        var map = this.map1;
     }
 
     #image(fileName){
@@ -32,24 +38,51 @@ export default class TileMap {
     // 0 dot
     // 2 pac man
     // 3 enemy
-    map = [
-    //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,0,0,7,7,0,0,8,0,0,0,0,1],
-        [1,0,1,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,1,7,0,4,0,0,0,0,0,5,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    ];
 
+    mCain = ["","my name is Michale Cain.","i talk like this.", "you were only supposed to blow the bloody..."]
+    tableTalk = ["","I am a table","british philosophers often use me in their examples", "perhaps they use me when they write their books"]
+    blue = ["","I am blue","Kermit is green", "but I am blue"]
+    blobTalk = ["","I am the blob","...", "...."]
+    sPurple = ["","I am slightly purple","perhaps you cannot tell the difference between me and the other blue squares", "but I am different"]
+    gyozaTalk = ["","I am gyoza. Enter the code.","I am gyoza. Enter the code.", "I am gyoza. Enter the code."]
+    
+        map1 = [
+            //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,1,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
+                [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
+                [1,0,1,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,9,1],
+                [1,0,1,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,1,7,0,4,0,0,0,0,0,5,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]
+            map2 = [
+        //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]
+
+        map = this.map1
+      
     draw(canvas, ctx) {
         this.#setCanvasSize(canvas);
         this.#clearCanvas(canvas, ctx);
@@ -88,15 +121,19 @@ export default class TileMap {
                     case 8:
                         image = this.wall;
                         break;
+                    case 9:
+                        image = this.gyoza;
+                        break;
+                    case 10:
+                        image = this.blob;
+                        break;
                     
                 }
                 if(image !=null)
                 ctx.drawImage(image,column * this.tileSize, row*this.tileSize,this.tileSize,this.tileSize)
             }
         }
-        
     }
-
     getPacman(velocity) {
         for(let row = 0; row< this.map.length; row++){
             for(let column = 0; column<this.map[row].length; column++){
@@ -111,8 +148,8 @@ export default class TileMap {
                         this)   
                 }
             }
+       }
     }
-}
 
     #clearCanvas(canvas, ctx){
         ctx.fillstyle = "black";
@@ -157,31 +194,43 @@ export default class TileMap {
                 const tile = this.map[row][column];
                 if(tile === 1){
                     dialogue.style.display="initial"
-                    dialogue.innerHTML="..."
+                    // dialogue.innerHTML="..."
                     return true;
                 }
                 if(tile === 4){
-                    dialogue.innerHTML="man"
+                    dialogue.innerHTML =this.blue[this.d]
                     return true;
                  }
                  if(tile === 5){
-                    dialogue.innerHTML="dinga"
+                    dialogue.innerHTML=this.sPurple[this.d]
                     return true;
                  }
                  if(this.map[row][column] === 6){
                     return true;
                  }
                  if(tile === 7){
-                    dialogue.innerHTML="This is a table"
-                    this.speaknow("This is a table", 1);    
-
+                    dialogue.innerHTML=this.tableTalk[this.d]
+                    // this.speaknow("This is a table", 1);    
                     return true;
                  }
                  if(tile === 8){
-                    dialogue.innerHTML="my name is Michael Cain"
-                    this.speaknow("My name is Michael Cain", 1);   
+                    dialogue.innerHTML= this.mCain[this.d]
+                    // input.style.display="initial"
+                    // this.speaknow("My name is Michael Cain", 1);   
                     return true;
                  }
+                 if(tile === 9){
+                    // dialogue.innerHTML= this.gyozaTalk[this.d]
+                    // input.style.display="initial"
+                    // this.speaknow("My name is Michael Cain", 1);   
+                    this.map = this.map2
+                    return true;
+                 }
+                 if(tile === 10){
+                    dialogue.innerHTML= this.blobTalk[this.d]
+                    return true;
+                 }
+            
             }   
         return false;
     }
@@ -190,27 +239,30 @@ export default class TileMap {
         // if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
             if(event.keyCode == 32) { 
                console.log(69)
-            dialogue.style.display="initial"
+               dialogue.style.display="initial"
 
             }
         // }
     }
-
     speaknow (something, v){
-        var speech = new SpeechSynthesisUtterance();
-        speech.rate = v;
-        speech.pitch = 1;
-        speech.volume = 1;
-        speech.voice = speechSynthesis.getVoices()[5];
-        speech.text = something;
-        speechSynthesis.speak(speech)
-        return
+            var speech = new SpeechSynthesisUtterance();
+            speech.rate = v;
+            speech.pitch = 1;
+            speech.volume = 1;
+            speech.voice = speechSynthesis.getVoices()[5];
+            speech.text = something;
+            speechSynthesis.speak(speech)
     }
-
-
-    #clearDialogue = (event) =>{
+    #clearDialogue = (event)=> {
         if(event.keyCode == 13){
-            dialogue.innerHTML=""
-      }
-   }
+                if(this.d < this.mCain.length-1){
+                    this.d += 1;
+                    console.log(this.d)
+                }else{
+                    dialogue.innerHTML=""
+                    this.d = 0;
+                }
+            input.style="hidden"
+        }
+    }
 }

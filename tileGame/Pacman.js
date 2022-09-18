@@ -11,10 +11,12 @@ export default class Pacman{
         this.currentMovingDirection = null;
         this.go = null;
         this.#loadPacmanImages();
+        this.animationTimer = 10;
+        this.i;
         document.addEventListener("keydown", this.#keydown);
         document.addEventListener("keyup", this.#keyup);
     
-        dialogue = document.getElementById("dialogue")
+        // dialogue = document.getElementById("dialogue")
 
     }
     draw(ctx){
@@ -32,12 +34,18 @@ export default class Pacman{
         const pacmanimage1 = new Image();
         const pacmanimage2 = new Image();
         const pacmanimage3 = new Image();
+        const pacmanimage4 = new Image();
         pacmanimage1.src = "./images/pinkTile.png"
+        pacmanimage4.src = "./images/test.png"
         pacmanimage2.src = "./images/blackTile.png"
+        pacmanimage3.src = "./images/blob.png"
 
         this.pacmanImages = [
             pacmanimage2,
             pacmanimage1,
+            pacmanimage3,
+            pacmanimage2,
+            pacmanimage4
         ];
         this.pacmanImageIndex = 0;
     }
@@ -74,44 +82,35 @@ export default class Pacman{
             this.go = move.right;
         }
     }
-
-
     #keyup =(event)=>{  
 
         if(event.keyCode==38){
             while(this.y%this.tileSize>0){
-                // this.velocity = 1;
                 this.y -=1;
-            }
-                this.velocity = 0;
-                console.log("up")
+        }
+            this.velocity = 0;
         }
         if(event.keyCode==40){
             while(this.y%this.tileSize>0){
-                // this.velocity = 1;
                 this.y +=1;
-            }
-                this.velocity = 0;
-                console.log("down")
+        }
+            this.velocity = 0;
         }
         if(event.keyCode==37){
             while(this.x%this.tileSize>0){
-                this.velocity = 1;
+                // this.velocity = 1;
                 this.x -=1;
-            }
-                this.velocity = 0;
-                console.log("left")
+        }
+            this.velocity = 0;
         }
         if(event.keyCode==39){
             while(this.x%this.tileSize>0){
                 this.x +=1;
         }
             this.velocity = 0;
-            console.log("right")
         }
         if(event.keyCode==32){
             this.velocity = 0;
-            console.log("enter")
     }
     }
     #move() {
@@ -124,8 +123,6 @@ export default class Pacman{
         if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){                                          
             return;
         }
-
-        
         switch (this.currentMovingDirection){
             case move.up:
                 this.y -= this.velocity;
@@ -135,18 +132,15 @@ export default class Pacman{
                 break;
             case move.left:
                 // change sprite
-                this.pacmanImageIndex = 0;
                 this.x -= this.velocity;
                 break;
             case move.right:
                 this.x +=  this.velocity; 
                 // change sprite
-                this.pacmanImageIndex = 1;
+                this.pacmanImageIndex = 3;
                 break;
             // }
 
         }
-        // console.log(this.x)
-        // console.log(this.y)
     }
 }

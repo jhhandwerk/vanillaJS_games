@@ -19,7 +19,7 @@ function gameLoop() {
     pacman.draw(ctx);
 }
 
-const myInterval = setInterval(gameLoop, 1000/50);
+const myInterval = setInterval(gameLoop, 1000/40);
 
 function myStop(){
     clearInterval(myInterval);
