@@ -24,11 +24,13 @@ export default class TileMap {
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
         document.addEventListener("keyup", this.#check);
+        document.addEventListener("change", this.#menuFunc);
         var dialogue = document.getElementById("dialogue");
         var message = document.getElementById("message");
         dialogue.style.display="none"
         message.style.display="none"
         this.input = document.getElementById("input");
+        this.menu = document.getElementById("menu");
         input.style.display="none"
         var map = this.map1;
     }
@@ -311,5 +313,11 @@ export default class TileMap {
             message.style.display="initial"
             message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here..."
         } 
+    }
+    #menuFunc = (event)=> {
+        
+        if(event.target.value == "dark"){
+            this.map = this.map3    
+        }
     }
 }
