@@ -47,10 +47,11 @@ export default class TileMap {
 
     mCain = ["","my name is Michale Cain.","i talk like this.", "you were only supposed to blow the bloody..."]
     tableTalk = ["","I am a table","british philosophers often use me in their examples", "perhaps they use me when they write their books"]
-    blue = ["","I am blue","Kermit is green", "but I am blue"]
+    blue = ["","I am blue","Kermit is green.but I am blue.What color are you?", ]
     blobTalk = ["","I am the blob","...", "...."]
     sPurple = ["","I am slightly purple","perhaps you cannot tell the difference between me and the other blue squares", "but I am different"]
     gyozaTalk = ["","I am gyoza. Enter the code.","I am gyoza. Enter the code.", "I am gyoza. Enter the code."]
+    password = ["","Enter the password","", ""]
     
         map1 = [
             //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
@@ -229,6 +230,12 @@ export default class TileMap {
                 }
                 if(tile === 4){
                     dialogue.innerHTML =this.blue[this.d]
+                    if(this.d == 2){
+                    input.style.display="initial"   
+                    }
+                    if(this.d == 3){
+                        dialogue.innerHTML=this.input.value + " is an excellent color!!!"
+                    }
                     return true;
                  }
                  if(tile === 5){
@@ -266,6 +273,8 @@ export default class TileMap {
                  }
                  if(tile === 12){
                     // this.map = this.map1
+                    dialogue.innerHTML=this.password[this.d]
+                    // i wanna make it so this does not appear until I hit enter...
                     input.style.display="initial"   
                     return true;
                  }
