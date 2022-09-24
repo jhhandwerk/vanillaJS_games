@@ -10,3 +10,12 @@
     margin-right: 200px;
     margin-top: 15px;
 }
+
+iframe{
+    margin: auto;
+    width: 920px;
+    height: 520px;
+    display:block
+} 
+
+

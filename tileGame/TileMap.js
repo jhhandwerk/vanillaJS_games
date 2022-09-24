@@ -20,18 +20,22 @@ export default class TileMap {
         this.blob = this.#image("blob.png")
         this.test = this.#image("test.png")
         this.back = this.#image("back.png")
+        this.luis = this.#image("luis.png")
         this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
         document.addEventListener("keyup", this.#check);
         document.addEventListener("change", this.#menuFunc);
+        document.addEventListener("change", this.#choiceFunc);
         var dialogue = document.getElementById("dialogue");
         var message = document.getElementById("message");
         dialogue.style.display="none"
         message.style.display="none"
         this.input = document.getElementById("input");
-        this.menu = document.getElementById("menu");
         input.style.display="none"
+        this.menu = document.getElementById("menu");
+        this.choice = document.getElementById("choice");
+        choice.style.display="none"
         var map = this.map1;
     }
 
@@ -45,13 +49,14 @@ export default class TileMap {
     // 2 pac man
     // 3 enemy
 
-    mCain = ["","my name is Michale Cain.","i talk like this.", "you were only supposed to blow the bloody..."]
+    mCain = ["","my name is Michale Cain.","i talk like this.", "'you were only supposed to blow the bloody...'"]
     tableTalk = ["","I am a table","british philosophers often use me in their examples", "perhaps they use me when they write their books"]
     blue = ["","I am blue","Kermit is green.but I am blue.What color are you?", ]
     blobTalk = ["","I am the blob","...", "...."]
     sPurple = ["","I am slightly purple","perhaps you cannot tell the difference between me and the other blue squares", "but I am different"]
     gyozaTalk = ["","I am gyoza. Enter the code.","I am gyoza. Enter the code.", "I am gyoza. Enter the code."]
     password = ["","Enter the password","", ""]
+    luisTalk = ["","Patrick!? is that you??","..."]
     
         map1 = [
             //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
@@ -83,7 +88,7 @@ export default class TileMap {
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ]
@@ -157,6 +162,9 @@ export default class TileMap {
                         break;
                     case 12:
                         image = this.test;
+                        break;
+                    case 13:
+                        image = this.luis;
                         break;
                     
                 }
@@ -251,15 +259,10 @@ export default class TileMap {
                     return true;
                  }
                  if(tile === 8){
-                    dialogue.innerHTML= this.mCain[this.d]
-                    // input.style.display="initial"
-                    // this.speaknow("My name is Michael Cain", 1);   
+                    dialogue.innerHTML= this.mCain[this.d] 
                     return true;
                  }
-                 if(tile === 9){
-                    // dialogue.innerHTML= this.gyozaTalk[this.d]
-                    // input.style.display="initial"
-                    // this.speaknow("My name is Michael Cain", 1);   
+                 if(tile === 9){ 
                     this.map = this.map2
                     return true;
                  }
@@ -275,7 +278,19 @@ export default class TileMap {
                     // this.map = this.map1
                     dialogue.innerHTML=this.password[this.d]
                     // i wanna make it so this does not appear until I hit enter...
-                    input.style.display="initial"   
+                    if(this.d == 1){
+                        input.style.display="initial" 
+                    }  
+                    return true;
+                 }
+                 if(tile === 13){
+                    dialogue.innerHTML= this.luisTalk[this.d]
+                    if(this.d == 1){
+                        choice.style.display="initial"
+                    }
+                    // if(choice.value == "No, Luis. It's not me, you are mistaken"){
+                    //     dialogue.innerHTML="Where did you get that overnight bag!?"
+                    // }
                     return true;
                  }
             }   
@@ -324,9 +339,15 @@ export default class TileMap {
         } 
     }
     #menuFunc = (event)=> {
-        
         if(event.target.value == "dark"){
             this.map = this.map3    
+        }
+    }
+    #choiceFunc = (event)=> {
+        if(event.target.value == "no"){
+            // this.d = 2;
+            // dialogue.innerHTML=this.luisTalk[this.d]   
+            window.location.href = "video1.html" 
         }
     }
 }
