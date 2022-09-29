@@ -2,8 +2,10 @@ import Pacman from "./Pacman.js";
 import move from "./move.js";
 
 export default class TileMap {
-    constructor(tileSize){
+    constructor(tileSize, Pacman){
         this.tileSize = tileSize;
+        this.Pacman = Pacman;
+        this.playerHealth = this.playerHealth;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("blackTile.png")
         this.dot = this.#image("dot.png")   
@@ -21,6 +23,7 @@ export default class TileMap {
         this.test = this.#image("test.png")
         this.back = this.#image("back.png")
         this.luis = this.#image("luis.png")
+        this.enemy = this.#image("enemy.png")
         this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
@@ -36,6 +39,8 @@ export default class TileMap {
         this.menu = document.getElementById("menu");
         this.choice = document.getElementById("choice");
         choice.style.display="none"
+        this.combatMenu = document.getElementById("combatMenu");
+        combatMenu.style.display="none"
         var map = this.map1;
     }
 
@@ -101,8 +106,26 @@ export default class TileMap {
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]
+
+            map4 = [
+        //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,2,0,0,2,0,,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -165,6 +188,9 @@ export default class TileMap {
                         break;
                     case 13:
                         image = this.luis;
+                        break;
+                    case 14:
+                        image = this.enemy
                         break;
                     
                 }
@@ -293,6 +319,9 @@ export default class TileMap {
                     // }
                     return true;
                  }
+                 if(tile === 14){
+                     return true;
+                 }
             }   
         return false;
     }
@@ -333,9 +362,23 @@ export default class TileMap {
         if(event.keyCode == 13 && this.input.value == "purple"){
             console.log("ok")
             this.map = this.map3
+            // this.Pacman.velocity = 0;
             input.style="hidden"
             message.style.display="initial"
-            message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here..."
+            message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here...<br>Unless..."
+            this.combatMenu.style.display="initial"
+            // the code below manages health of the character once they the enter the room (once they 
+            // enter the battle)
+            let i = 0;
+            setInterval(function() {
+                i++;
+                console.log(i);
+                if(i > 5){
+                    // this.map = this.map4
+                    console.log("ok")
+                    window.location.href = "video1.html" 
+                }
+            }, 1000); 
         } 
     }
     #menuFunc = (event)=> {
