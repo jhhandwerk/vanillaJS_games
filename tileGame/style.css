@@ -17,5 +17,8 @@ iframe{
     height: 520px;
     display:block
 } 
+.attack{
+    display: none;
+}
 
 

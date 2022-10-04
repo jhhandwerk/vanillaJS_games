@@ -1,6 +1,11 @@
 import Pacman from "./Pacman.js";
 import move from "./move.js";
 
+var health = 10;
+var enemyHealth = 10;
+let exp =　0;
+const expCounter = document.getElementById("exp");
+expCounter.innerHTML="EXP: " + exp
 export default class TileMap {
     constructor(tileSize, Pacman){
         this.tileSize = tileSize;
@@ -28,22 +33,27 @@ export default class TileMap {
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
         document.addEventListener("keyup", this.#check);
-        document.addEventListener("change", this.#menuFunc);
+        document.addEventListener("change", this.menuFunc);
         document.addEventListener("change", this.#choiceFunc);
         var dialogue = document.getElementById("dialogue");
         var message = document.getElementById("message");
         dialogue.style.display="none"
         message.style.display="none"
+        // menus and imput code below
         this.input = document.getElementById("input");
         input.style.display="none"
         this.menu = document.getElementById("menu");
+        menu.style.display = "none"
         this.choice = document.getElementById("choice");
         choice.style.display="none"
         this.combatMenu = document.getElementById("combatMenu");
+        this.attackBtn = document.getElementById("attack");
         combatMenu.style.display="none"
-        var map = this.map1;
+        attack.style.display="none"
+        this.attackBtn.addEventListener("click", this.#attack);
+        // attack.style.display="none";
+        // var map = this.map2;
     }
-
     #image(fileName){
         const img = new Image();
         img.src = `images/${fileName}`;
@@ -120,19 +130,38 @@ export default class TileMap {
         //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,2,0,0,2,0,,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,1],
+            [1,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ]
+
+
+            map5 = [
+                //   0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9 
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,2,2,2,2,0,0,0,0,2,0,0,2,0,0,0,0,1],
+                    [1,0,0,2,0,0,2,0,0,0,0,2,0,2,0,0,0,0,0,1],
+                    [1,0,0,2,0,0,2,0,0,0,0,2,2,0,0,0,0,0,0,1],
+                    [1,0,0,2,0,0,2,0,,0,0,2,0,2,0,0,0,0,0,1],
+                    [1,0,0,2,2,2,2,0,0,0,0,2,0,0,2,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+                    ]
 
         map = this.map1
       
@@ -281,7 +310,7 @@ export default class TileMap {
                  }
                  if(tile === 7){
                     dialogue.innerHTML=this.tableTalk[this.d]
-                    // this.speaknow("This is a table", 1);    
+                    this.speaknow("This is a table", 1);    
                     return true;
                  }
                  if(tile === 8){
@@ -331,9 +360,8 @@ export default class TileMap {
             if(event.keyCode == 32) { 
                console.log(69)
                dialogue.style.display="initial"
-
             }
-        // }
+       // }
     }
     speaknow (something, v){
             var speech = new SpeechSynthesisUtterance();
@@ -358,32 +386,57 @@ export default class TileMap {
     }
     // this checks user input and responds with correct action (switching map)
     #check = (event)=> {
-        // map = this.map2
         if(event.keyCode == 13 && this.input.value == "purple"){
-            console.log("ok")
             this.map = this.map3
-            // this.Pacman.velocity = 0;
             input.style="hidden"
             message.style.display="initial"
-            message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here...<br>Unless..."
+            // message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here...<br>Unless..."
             this.combatMenu.style.display="initial"
             // the code below manages health of the character once they the enter the room (once they 
             // enter the battle)
             let i = 0;
+            this.speaknow("you are in thr shit now!", 1);    
+
             setInterval(function() {
+                attack.style.display="initial"
                 i++;
-                console.log(i);
-                if(i > 5){
-                    // this.map = this.map4
-                    console.log("ok")
-                    window.location.href = "video1.html" 
+                health--;
+                console.log("your helth is " + i);
+                console.log(health);
+                if(i > 5&& enemyHealth>0){
+                    console.log("game over")
+                    window.location.href = "video2.html" 
                 }
-            }, 1000); 
+            }, 10000);
+            setInterval(function(){
+                attack.style.display="initial"  
+            }, 7000)
         } 
+        return true;
     }
-    #menuFunc = (event)=> {
+    #attack = (event)=>{
+        console.log("attack! enemy health = " + enemyHealth)
+        enemyHealth--;
+        if(enemyHealth>1){
+            this.speaknow("That was a dinger", 1);   
+        } 
+        attack.style.display="none"  
+        if(enemyHealth==0){
+            this.map = this.map5
+            menu.style.display = "initial"
+            // alert("You win!")
+            console.log("sweet")
+            exp++;
+            console.log("exp " + exp)  
+            expCounter.innerHTML="EXP: " + exp
+            this.speaknow("you are a masterbator", 1);    
+        }
+    }
+    menuFunc = (event)=> {
         if(event.target.value == "dark"){
-            this.map = this.map3    
+            this.map = this.map3        
+        }else if(event.target.value=="normal"){
+            this.map = this.map1
         }
     }
     #choiceFunc = (event)=> {
@@ -391,6 +444,7 @@ export default class TileMap {
             // this.d = 2;
             // dialogue.innerHTML=this.luisTalk[this.d]   
             window.location.href = "video1.html" 
+            // this.battle()
         }
     }
 }
