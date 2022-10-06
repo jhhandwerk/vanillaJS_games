@@ -2,7 +2,7 @@ import Pacman from "./Pacman.js";
 import move from "./move.js";
 
 var health = 10;
-var enemyHealth = 10;
+var enemyHealth = 3;
 let exp =　0;
 const expCounter = document.getElementById("exp");
 expCounter.innerHTML="EXP: " + exp
@@ -46,11 +46,12 @@ export default class TileMap {
         menu.style.display = "none"
         this.choice = document.getElementById("choice");
         choice.style.display="none"
-        this.combatMenu = document.getElementById("combatMenu");
         this.attackBtn = document.getElementById("attack");
-        combatMenu.style.display="none"
+        this.battleOver = document.getElementById("battleOver");
         attack.style.display="none"
+        this.battleOver.style.display="none"
         this.attackBtn.addEventListener("click", this.#attack);
+        this.battleOver.addEventListener("click", this.returnFromBattle);
         // attack.style.display="none";
         // var map = this.map2;
     }
@@ -387,32 +388,40 @@ export default class TileMap {
     // this checks user input and responds with correct action (switching map)
     #check = (event)=> {
         if(event.keyCode == 13 && this.input.value == "purple"){
+            console.log("you entered again!")
+            enemyHealth = 3;
+            health = 10;
             this.map = this.map3
             input.style="hidden"
             message.style.display="initial"
             // message.innerHTML="You are stuck here forever!!!<br> Not even Erik Weisz could make it out of here...<br>Unless..."
-            this.combatMenu.style.display="initial"
             // the code below manages health of the character once they the enter the room (once they 
             // enter the battle)
-            let i = 0;
-            this.speaknow("you are in thr shit now!", 1);    
+            let i = 5;
+            this.speaknow("you are in the shit now!", 1);    
 
             setInterval(function() {
-                attack.style.display="initial"
-                i++;
+                // attack.style.display="initial"
                 health--;
-                console.log("your helth is " + i);
+                // health--;
+                console.log("your helth is " + health);
                 console.log(health);
-                if(i > 5&& enemyHealth>0){
+                if(i < 1&& enemyHealth>0){
                     console.log("game over")
                     window.location.href = "video2.html" 
                 }
             }, 10000);
-            setInterval(function(){
-                attack.style.display="initial"  
+            const displayInterval = setInterval(function(){
+                if(enemyHealth>0){
+                    attack.style.display="initial"  
+                }else{
+                    attack.style.display="none"
+                    this.battleOver.style.display="initial"
+                    // enemyHealth = 3;
+                    clearInterval(displayInterval)
+                }
             }, 7000)
         } 
-        return true;
     }
     #attack = (event)=>{
         console.log("attack! enemy health = " + enemyHealth)
@@ -423,14 +432,17 @@ export default class TileMap {
         attack.style.display="none"  
         if(enemyHealth==0){
             this.map = this.map5
-            menu.style.display = "initial"
-            // alert("You win!")
             console.log("sweet")
             exp++;
             console.log("exp " + exp)  
             expCounter.innerHTML="EXP: " + exp
             this.speaknow("you are a masterbator", 1);    
+            this.input.value = ""
         }
+    }
+    returnFromBattle =(event) =>{
+        this.map = this.map1
+        this.battleOver.style.display="none"
     }
     menuFunc = (event)=> {
         if(event.target.value == "dark"){
