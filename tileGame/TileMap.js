@@ -1,11 +1,17 @@
 import Pacman from "./Pacman.js";
+import pacmanImageIndex from "./Pacman.js";
 import move from "./move.js";
 
 var health = 10;
 var enemyHealth = 3;
 let exp =　0;
 const expCounter = document.getElementById("exp");
-expCounter.innerHTML="EXP: " + exp
+const hpCounter = document.getElementById("health");
+const eHelthCounter = document.getElementById("eHealth");
+eHelthCounter.style.display="none";
+expCounter.innerHTML="EXP: " + exp;
+hpCounter.innerHTML="HP: " + health
+eHelthCounter.innerHTML="Eenemy HP: " + enemyHealth
 export default class TileMap {
     constructor(tileSize, Pacman){
         this.tileSize = tileSize;
@@ -390,7 +396,7 @@ export default class TileMap {
         if(event.keyCode == 13 && this.input.value == "purple"){
             console.log("you entered again!")
             enemyHealth = 3;
-            health = 10;
+            eHelthCounter.style.display="initial";
             this.map = this.map3
             input.style="hidden"
             message.style.display="initial"
@@ -400,16 +406,16 @@ export default class TileMap {
             let i = 5;
             this.speaknow("you are in the shit now!", 1);    
 
-            setInterval(function() {
+            const healthFunction = setInterval(function() {
                 // attack.style.display="initial"
                 health--;
-                // health--;
-                console.log("your helth is " + health);
+                hpCounter.innerHTML="HP: " + health
+                // console.log("your helth is " + health);
                 console.log(health);
                 if(i < 1&& enemyHealth>0){
                     console.log("game over")
                     window.location.href = "video2.html" 
-                }
+                } 
             }, 10000);
             const displayInterval = setInterval(function(){
                 if(enemyHealth>0){
@@ -419,13 +425,20 @@ export default class TileMap {
                     this.battleOver.style.display="initial"
                     // enemyHealth = 3;
                     clearInterval(displayInterval)
+                    clearInterval(healthFunction)
                 }
             }, 7000)
+
+            const animationInterval = setInterval(function(){
+                this.pacmanImageIndex = 1;    
+            }, 1000)
         } 
     }
     #attack = (event)=>{
         console.log("attack! enemy health = " + enemyHealth)
         enemyHealth--;
+        eHelthCounter.innerHTML="Enemy HP:" + enemyHealth;
+
         if(enemyHealth>1){
             this.speaknow("That was a dinger", 1);   
         } 
@@ -438,6 +451,7 @@ export default class TileMap {
             expCounter.innerHTML="EXP: " + exp
             this.speaknow("you are a masterbator", 1);    
             this.input.value = ""
+            eHelthCounter.style.display="none";
         }
     }
     returnFromBattle =(event) =>{
