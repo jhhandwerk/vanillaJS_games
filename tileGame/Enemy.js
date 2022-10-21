@@ -22,8 +22,14 @@ export default class Enemy{
         this.staggerFrames = 6;
         // number of frames of the sprite sheet↓
         this.numFrames = 1;
-        document.addEventListener("keydown", this.#keydown);
-        document.addEventListener("keyup", this.#keyup);
+        // hard coded movement values
+        this.velocity = 4;
+        this.pacmanImageIndex = 2;
+        this.velocity = 2;
+        this.go = move.left;
+        this.frameY= 3;
+        // document.addEventListener("keydown", this.#keydown);
+        // document.addEventListener("keyup", this.#keyup);
     
         // dialogue = document.getElementById("dialogue")
     }
@@ -57,79 +63,15 @@ export default class Enemy{
         ];
         this.pacmanImageIndex = 2;
     }
-    #keydown =(event)=>{
-        this.velocity = 4;
-        this.pacmanImageIndex = 2;
-        // the chain of if conditions below solved the problem of having the player react to other key input.
-        if(event.keyCode!==38&&event.keyCode!==40&&event.keyCode!==37&&event.keyCode!==39)  {
-            this.velocity = 0;
+    changeMovement(){
+        if(this.x < 50){
+        this.go = move.right;
         }
-        // up
-        if(event.keyCode == 38){
-            this.go = move.up;
-            this.frameY = 1 
-        }
-        // down
-        if(event.keyCode == 40){
-            this.go = move.down;
-            this.frameY = 0
-        }
-
-        // left
-        if(event.keyCode == 37){
+        if(this.x > 200){
             this.go = move.left;
-            this.frameY = 3;
-        }
-        // right
-        if(event.keyCode == 39){
-            this.go = move.right;
-            this.frameY = 2;
-        }
+            }
     }
-    #keyup =(event)=>{  
-        if(event.keyCode==38){
-            while(this.y%this.tileSize>0){
-                this.y -=1;
-        }
-            this.velocity = 0;
-            this.frameX = 0;
-            this.frameY = 0;
-            this.pacmanImageIndex = 1;
 
-        }
-        if(event.keyCode==40){
-            while(this.y%this.tileSize>0){
-                this.y +=1;
-        }
-            this.velocity = 0;
-            this.frameX = 0;
-            this.frameY = 0;
-            this.pacmanImageIndex = 0;
-
-        }
-        if(event.keyCode==37){
-            while(this.x%this.tileSize>0){
-                // this.velocity = 1;
-                this.x -=1;
-        }
-            this.velocity = 0;
-            this.frameX = 0;
-            this.frameY = 3;
-        }
-        if(event.keyCode==39){
-            while(this.x%this.tileSize>0){
-                this.x +=1;
-        }
-            this.velocity = 0;
-            this.frameX = 0;
-            this.frameY = 2;
-        }
-        if(event.keyCode==32){
-            this.velocity = 0;
-            this.frameX = 0;
-            this.frameY = 0;
-    }
-    }
     #move() {
         if (this.currentMovingDirection !== this.go){
             if(Number.isInteger(this.x/this.tileSize)&&Number.isInteger(this.y/this.tileSize)){
@@ -140,6 +82,10 @@ export default class Enemy{
         if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){                                          
             return;
         }
+        // if(this.x < 33){
+        // this.go = move.right;
+        // }
+        this.changeMovement()
         switch (this.currentMovingDirection){
             case move.up:
                 this.y -= this.velocity;
@@ -156,5 +102,6 @@ export default class Enemy{
             // }
 
         }
+        console.log(this.x)
     }
 }
