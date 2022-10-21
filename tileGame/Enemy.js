@@ -1,7 +1,7 @@
 import move from "./move.js";
 import TileMap from "./TileMap.js";
 
-export default class Pacman{
+export default class Enemy{
     constructor(x,y,tileSize, velocity, tileMap, dialogue){
         this.x = x;
         this.y = y;
@@ -47,6 +47,9 @@ export default class Pacman{
         pacmanimage1.src = "./images/front-sheet.png"
         pacmanimage2.src = "./images/back-Sheet.png"
         pacmanimage6.src = "./images/testSprite-Sheet.png"
+        // pacmanimage1.src = "./images/pinkTile.png"
+        // pacmanimage2.src = "./images/pinkTile.png"
+        // pacmanimage6.src = "./images/pinkTile.png"
         this.pacmanImages = [
             pacmanimage1,
             pacmanimage2,

@@ -1,4 +1,5 @@
 import Pacman from "./Pacman.js";
+import Enemy from "./Enemy.js";
 import pacmanImageIndex from "./Pacman.js";
 import move from "./move.js";
 
@@ -13,9 +14,10 @@ expCounter.innerHTML="EXP: " + exp;
 hpCounter.innerHTML="HP: " + health
 eHelthCounter.innerHTML="Eenemy HP: " + enemyHealth
 export default class TileMap {
-    constructor(tileSize, Pacman){
+    constructor(tileSize, Pacman, Enemy){
         this.tileSize = tileSize;
         this.Pacman = Pacman;
+        this.Enemy = Enemy;
         this.playerHealth = this.playerHealth;
         this.wall = this.#image("wall.png")
         this.pacman = this.#image("blackTile.png")
@@ -35,6 +37,7 @@ export default class TileMap {
         this.back = this.#image("back.png")
         this.luis = this.#image("luis.png")
         this.enemy = this.#image("enemy.png")
+        this.animationTile = this.#image("testBG-Sheet.png")
         this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
         document.addEventListener("keydown", this.#clearDialogue);
@@ -58,8 +61,6 @@ export default class TileMap {
         this.battleOver.style.display="none"
         this.attackBtn.addEventListener("click", this.#attack);
         this.battleOver.addEventListener("click", this.returnFromBattle);
-        // attack.style.display="none";
-        // var map = this.map2;
     }
     #image(fileName){
         const img = new Image();
@@ -85,12 +86,12 @@ export default class TileMap {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,6,0,0,0,0,0,8,0,0,0,0,1],
+                [1,0,0,0,6,0,0,0,0,0,0,0,0,0,8,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,9,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
@@ -228,9 +229,14 @@ export default class TileMap {
                     case 14:
                         image = this.enemy
                         break;
+                    case 15:
+                        image = this.animationTile
+                        break;
                     
                 }
                 if(image !=null)
+                // draw(ctx)(image, sx, sy, sw, sh, dx, dy, dw, dh)
+                // this.pacmanImages[this.pacmanImageIndex], this.spriteWidth*this.frameX,this.spriteHeight*this.frameY,this.spriteWidth,this.spriteHeight,this.x,this.y, this.tileSize, this.tileSize);
                 ctx.drawImage(image,column * this.tileSize, row*this.tileSize,this.tileSize,this.tileSize)
             }
         }
@@ -242,6 +248,23 @@ export default class TileMap {
                 if(tile === 6){
                     this.map[row][column] = 0;
                     return new Pacman(
+                        column*this.tileSize, 
+                        row*this.tileSize, 
+                        this.tileSize, 
+                        velocity,
+                        this)   
+                }
+            }
+       }
+    }
+
+    getEnemy(velocity) {
+        for(let row = 0; row< this.map.length; row++){
+            for(let column = 0; column<this.map[row].length; column++){
+                let tile = this.map[row][column];
+                if(tile === 14){
+                    this.map[row][column] = 0;
+                    return new Enemy(
                         column*this.tileSize, 
                         row*this.tileSize, 
                         this.tileSize, 
@@ -358,6 +381,9 @@ export default class TileMap {
                  if(tile === 14){
                      return true;
                  }
+                 if(tile === 15){
+                    return true;
+                }
             }   
         return false;
     }
@@ -409,6 +435,7 @@ export default class TileMap {
             const healthFunction = setInterval(function() {
                 // attack.style.display="initial"
                 health--;
+
                 hpCounter.innerHTML="HP: " + health
                 // console.log("your helth is " + health);
                 console.log(health);
@@ -457,6 +484,9 @@ export default class TileMap {
     returnFromBattle =(event) =>{
         this.map = this.map1
         this.battleOver.style.display="none"
+        // if(this.exp == 1){
+        //     this.map = this.map2
+        // }
     }
     menuFunc = (event)=> {
         if(event.target.value == "dark"){
