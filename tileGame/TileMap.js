@@ -16,11 +16,11 @@ eHelthCounter.innerHTML="Eenemy HP: " + enemyHealth
 export default class TileMap {
     constructor(tileSize, Pacman, Enemy){
         this.tileSize = tileSize;
-        this.Pacman = Pacman;
-        this.Enemy = Enemy;
+        // this.Pacman = Pacman;
+        // this.Enemy = Enemy;
         this.playerHealth = this.playerHealth;
         this.wall = this.#image("wall.png")
-        this.pacman = this.#image("blackTile.png")
+        // this.pacman = this.#image("blackTile.png")
         this.dot = this.#image("dot.png")   
         this.ghost = this.#image("ghost.png")
         this.greyTile = this.#image("greyTile.png")
@@ -36,7 +36,7 @@ export default class TileMap {
         this.test = this.#image("test.png")
         this.back = this.#image("back.png")
         this.luis = this.#image("luis.png")
-        this.enemy = this.#image("enemy.png")
+        // this.enemy = this.#image("enemy.png")
         this.animationTile = this.#image("testBG-Sheet.png")
         this.d = 0;
         document.addEventListener("keydown", this.#dialogue);
@@ -86,13 +86,13 @@ export default class TileMap {
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,6,0,0,0,0,0,0,0,0,0,8,0,0,0,0,1],
+                [1,0,0,0,98,0,0,0,0,0,0,0,0,0,8,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,9,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,0,99,0,0,0,0,0,0,5,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -110,7 +110,7 @@ export default class TileMap {
             [1,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+            [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,1],
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -245,7 +245,7 @@ export default class TileMap {
         for(let row = 0; row< this.map.length; row++){
             for(let column = 0; column<this.map[row].length; column++){
                 let tile = this.map[row][column];
-                if(tile === 6){
+                if(tile === 98){
                     this.map[row][column] = 0;
                     return new Pacman(
                         column*this.tileSize, 
@@ -256,24 +256,36 @@ export default class TileMap {
                 }
             }
        }
+    //    console.log(this.Enemy.x)
+
     }
 
-    getEnemy(velocity) {
-        for(let row = 0; row< this.map.length; row++){
-            for(let column = 0; column<this.map[row].length; column++){
-                let tile = this.map[row][column];
-                if(tile === 14){
-                    this.map[row][column] = 0;
+getEnemy(velocity) { 
+                // if(this.map = this.map1){
+
+    for(let row = 0; row< this.map.length; row++){
+        for(let column = 0; column<this.map[row].length; column++){
+            let tile = this.map[row][column];
+            if(tile === 99){
+                this.map[row][column] = 0;
+                // if(this.map = this.map1){
                     return new Enemy(
                         column*this.tileSize, 
                         row*this.tileSize, 
                         this.tileSize, 
                         velocity,
-                        this)   
-                }
+                        this) 
+                // }
             }
-       }
-    }
+        }    
+   }
+}
+
+// checkForEnemy(velocity){
+//     if(this.map = this.map1){
+//     getEnemy(velocity)
+//     }
+// }
 
     #clearCanvas(canvas, ctx){
         ctx.fillstyle = "black";
@@ -349,6 +361,7 @@ export default class TileMap {
                  }
                  if(tile === 9){ 
                     this.map = this.map2
+                    // Enemy.x == 500
                     return true;
                  }
                  if(tile === 10){
@@ -384,6 +397,9 @@ export default class TileMap {
                  if(tile === 15){
                     return true;
                 }
+                // if(tile === 99){
+                //     return true;
+                // }
             }   
         return false;
     }
@@ -391,7 +407,6 @@ export default class TileMap {
         // const tile = this.tileMap.map[row][column];
         // if(this.tileMap.didCollideWithEnvironment(this.x,this.y,this.currentMovingDirection)){
             if(event.keyCode == 32) { 
-               console.log(69)
                dialogue.style.display="initial"
             }
        // }

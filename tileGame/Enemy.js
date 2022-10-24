@@ -5,6 +5,7 @@ export default class Enemy{
     constructor(x,y,tileSize, velocity, tileMap, dialogue){
         this.x = x;
         this.y = y;
+        // const tileMap = new TileMap();
         this.tileSize = tileSize;
         this.velocity = velocity;
         this.tileMap = tileMap;
@@ -23,7 +24,7 @@ export default class Enemy{
         // number of frames of the sprite sheet↓
         this.numFrames = 1;
         // hard coded movement values
-        this.velocity = 4;
+        // this.velocity = 4;
         this.pacmanImageIndex = 2;
         this.velocity = 2;
         this.go = move.left;
@@ -44,6 +45,20 @@ export default class Enemy{
                 else this.frameX = 0;
             }
             this.gameFrame++;
+    }
+
+    collideWithEnemy(pacman){
+        const size = this.tileSize /2;
+        if(this.x < pacman.x + size &&
+           this.x + size > pacman.x &&
+           this.y < pacman.y + size &&
+           this.y + size > pacman.y){
+            //    console.log("Hey, you bumped me!!!!!!!!!!!!!!" +pacman.x)
+               return true;
+           }
+           else{
+               return false
+           }
     }
 
     #loadPacmanImages() {
@@ -102,6 +117,6 @@ export default class Enemy{
             // }
 
         }
-        console.log(this.x)
+        // console.log(this.x)
     }
 }

@@ -39,6 +39,19 @@ export default class Pacman{
             }
             this.gameFrame++;
     }
+    collideWithEnemy(enemy){
+        const size = this.tileSize;
+        if(this.x < enemy.x + size ||
+           this.x + size > enemy.x ||
+           this.y < enemy.y + size ||
+           this.y + size > enemy.y){
+            //    console.log("Hey, you bumped me!!!!!!!!!!!!!!" +pacman.x)
+               return true;
+           }
+           else{
+               return false
+           }
+    }
 
     #loadPacmanImages() {
         const pacmanimage1 = new Image();
@@ -153,5 +166,6 @@ export default class Pacman{
             // }
 
         }
+        console.log(this.x)
     }
 }
